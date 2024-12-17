@@ -62,4 +62,26 @@ export class TaskRepository {
       throw new InternalServerErrorException('Không thể update task repo');
     }
   }
+
+  async findTaskWithFilter(filterDto): Promise<Task[]> {
+    const { status, search } = filterDto;
+    const query = this.taskRepository.createQueryBuilder('task'); //task là tên bảng
+
+    if (status) {
+      query.andWhere('task.status = :status', { status });
+    }
+
+    if (search) {
+      query.andWhere(
+        'task.title LIKE :search OR task.description LIKE :search',
+        { search: `%${search}%` },
+      );
+    }
+
+    try {
+      return await query.getMany();
+    } catch (error) {
+      throw new InternalServerErrorException('Không thể lấy task repo');
+    }
+  }
 }
