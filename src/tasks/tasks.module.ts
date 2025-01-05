@@ -7,8 +7,7 @@ import { Task } from './entity/task.entity';
 
 @Module({
   /* forFeature() method to define which repositories are registered 
-  in the current scope//forFeature() method to define which repositories 
-  are registered in the current scope
+  in the current scope
    */
   imports: [TypeOrmModule.forFeature([Task])],
   controllers: [TasksController],

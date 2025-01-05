@@ -80,23 +80,3 @@ export class TasksService {
     }
   }
 }
-
-// getTasksWithFilters(filterDto: GetTasksFilterDto): Task[] {
-//   const { status, search } = filterDto;
-//   let tasks = this.getAllTasks();
-//   if (status) {
-//     tasks = tasks.filter((task) => task.status === status);
-//   }
-//   if (search) {
-//     tasks = tasks.filter((tasks) => {
-//       if (
-//         tasks.title.includes(search) ||
-//         tasks.description.includes(search)
-//       ) {
-//         return true;
-//       }
-//       return false;
-//     });
-//   }
-//   return tasks;
-// }
