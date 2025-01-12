@@ -10,8 +10,8 @@ export class UserRepository {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findOne(email: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { email: email } });
+  async findOne(id: string): Promise<User> {
+    return await this.userRepository.findOne({ where: { id: id } });
   }
 
   async findByEmail(email: string): Promise<User> {
