@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TaskStatus } from '../tasks-status.enum';
+import { Folder } from 'src/folders/entities/folder.entity';
 
 @Entity()
 export class Task {
@@ -14,6 +15,12 @@ export class Task {
 
   @Column()
   status: TaskStatus;
+
+  @Column({ nullable: true })
+  folderId: string;
+
+  @ManyToOne(() => Folder, folder => folder.tasks)
+  folder: Folder;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

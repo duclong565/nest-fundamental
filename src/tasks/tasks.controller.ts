@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { TaskStatus } from './tasks-status.enum';
+// import { TaskStatus } from './tasks-status.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -43,7 +43,7 @@ export class TasksController {
 
   @Delete('/:id')
   deleteTaskById(@Param('id') id: string): Promise<void> {
-    return this.tasksService.deleteTaskById(id);
+    return this.deleteTaskById(id);
   }
 
   @Patch('/:id')

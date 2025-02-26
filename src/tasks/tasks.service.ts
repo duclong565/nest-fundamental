@@ -1,9 +1,7 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { TaskStatus } from './tasks-status.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskRepository } from './entity/tasks.repository';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './entity/task.entity';
 import { UpdateTaskDto } from './dto/update-task.dto';
 
@@ -14,7 +12,7 @@ export class TasksService {
   async getTasks(): Promise<Task[]> {
     try {
       return await this.taskRepository.getTasks();
-    } catch (error) {
+    } catch (err) {
       throw new InternalServerErrorException('Không thể lấy task o service');
     }
   }
@@ -32,7 +30,7 @@ export class TasksService {
   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     try {
       return await this.taskRepository.createTask(createTaskDto);
-    } catch (error) {
+    } catch (err) {
       throw new InternalServerErrorException('Không thể tạo task o service');
     }
   }
@@ -46,7 +44,7 @@ export class TasksService {
       }
 
       await this.taskRepository.deleteTask(id);
-    } catch (error) {
+    } catch (err) {
       throw new InternalServerErrorException('Không thể xóa task o service');
     }
   }
@@ -67,7 +65,7 @@ export class TasksService {
       if (status !== undefined) found.status = status;
 
       return await this.taskRepository.updateTask(found);
-    } catch (error) {
+    } catch (err) {
       throw new InternalServerErrorException('Không thể update task o service');
     }
   }
@@ -75,7 +73,7 @@ export class TasksService {
   async getTasksWithFilters(filterDto: GetTasksFilterDto): Promise<Task[]> {
     try {
       return await this.taskRepository.findTaskWithFilter(filterDto);
-    } catch (error) {
+    } catch (err) {
       throw new InternalServerErrorException('Không thể lấy task o service');
     }
   }
