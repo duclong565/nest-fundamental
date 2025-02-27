@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Folder } from './folder.entity';
 import { Repository } from 'typeorm';
 import { CreateFolderDto } from '../dto/create-folder.dto';
+import { UpdateFolderDto } from '../dto/update-folder.dto';
 
 @Injectable()
 export class FolderRepository {
@@ -16,7 +17,10 @@ export class FolderRepository {
       const { title } = createFolderDto;
       return await this.folderRepository.save({ title, taskOrderIds: [] });
     } catch (error) {
-      throw new InternalServerErrorException('Không thể tạo folder repo');
+      throw new InternalServerErrorException(
+        'Không thể tạo folder repo',
+        error,
+      );
     }
   }
 
@@ -24,7 +28,36 @@ export class FolderRepository {
     try {
       return await this.folderRepository.find();
     } catch (error) {
-      throw new InternalServerErrorException('Không thể lấy folder repo');
+      throw new InternalServerErrorException(
+        'Không thể lấy folder repo',
+        error,
+      );
     }
-  } 
+  }
+
+  async findOneFolder(id: string): Promise<Folder> {
+    try {
+      return await this.folderRepository.findOne({ where: { id } });
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Không thể lấy folder repo',
+        error,
+      );
+    }
+  }
+
+  async updateFolder(
+    id: string,
+    updateFolderDto: UpdateFolderDto,
+  ): Promise<Folder> {
+    try {
+      const { title } = updateFolderDto;
+      return await this.folderRepository.save({ id, title });
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Không thể update folder repo',
+        error,
+      );
+    }
+  }
 }

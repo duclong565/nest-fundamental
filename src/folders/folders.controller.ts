@@ -26,18 +26,18 @@ export class FoldersController {
     return this.foldersService.findAllFolders();
   }
 
-  // @Get(':id')
-  // findOneFolder(@Param('id') id: string) {
-  //   return this.foldersService.findOne(+id);
-  // }
+  @Get(':id')
+  findOneFolder(@Param('id') id: string) {
+    return this.foldersService.findOneFolder(id);
+  }
 
-  // @Patch(':id')
-  // updateFolder(
-  //   @Param('id') id: string,
-  //   @Body() updateFolderDto: UpdateFolderDto,
-  // ) {
-  //   return this.foldersService.update(+id, updateFolderDto);
-  // }
+  @Patch(':id')
+  updateFolder(
+    @Param('id') id: string,
+    @Body() updateFolderDto: UpdateFolderDto,
+  ) {
+    return this.foldersService.updateFolder(id, updateFolderDto);
+  }
 
   // @Delete(':id')
   // removeFolder(@Param('id') id: string) {

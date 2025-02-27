@@ -12,7 +12,10 @@ export class FoldersService {
     try {
       return await this.folderRepository.createFolder(createFolderDto);
     } catch (error) {
-      throw new InternalServerErrorException('Không thể tạo folder service');
+      throw new InternalServerErrorException(
+        'Không thể tạo folder service',
+        error,
+      );
     }
   }
 
@@ -20,17 +23,35 @@ export class FoldersService {
     try {
       return await this.folderRepository.findAllFolders();
     } catch (error) {
-      throw new InternalServerErrorException('Không thể lấy folder service');
+      throw new InternalServerErrorException(
+        'Không thể lấy folder service',
+        error,
+      );
     }
   }
 
-  // findOneFolder(id: number) {
-  //   return `This action returns a #${id} folder`;
-  // }
+  async findOneFolder(id: string): Promise<Folder> {
+    try {
+      return await this.folderRepository.findOneFolder(id);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Không thể lấy folder service',
+        error,
+      );
+    }
+  }
 
-  // updateFolder(id: number, updateFolderDto: UpdateFolderDto) {
-  //   return `This action updates a #${id} folder`;
-  // }
+  async updateFolder(id: string, updateFolderDto: UpdateFolderDto) {
+    const { title } = updateFolderDto;
+    try {
+      return await this.folderRepository.updateFolder(id, { title });
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Không thể update folder service',
+        error,
+      );
+    }
+  }
 
   // removeFolder(id: number) {
   //   return `This action removes a #${id} folder`;
