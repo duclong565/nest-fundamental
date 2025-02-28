@@ -53,7 +53,14 @@ export class FoldersService {
     }
   }
 
-  // removeFolder(id: number) {
-  //   return `This action removes a #${id} folder`;
-  // }
+  async deleteFolder(id: string): Promise<void> {
+    try {
+      await this.folderRepository.deleteFolder(id);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Không thể xóa folder service',
+        error,
+      );
+    }
+  }
 }

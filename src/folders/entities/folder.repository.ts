@@ -60,4 +60,15 @@ export class FolderRepository {
       );
     }
   }
+
+  async deleteFolder(id: string): Promise<void> {
+    try {
+      await this.folderRepository.delete({ id });
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Không thể xóa folder repo',
+        error,
+      );
+    }
+  }
 }

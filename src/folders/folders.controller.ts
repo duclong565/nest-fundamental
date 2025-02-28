@@ -39,8 +39,8 @@ export class FoldersController {
     return this.foldersService.updateFolder(id, updateFolderDto);
   }
 
-  // @Delete(':id')
-  // removeFolder(@Param('id') id: string) {
-  //   return this.foldersService.remove(+id);
-  // }
+  @Delete(':id')
+  deleteFolder(@Param('id') id: string): Promise<void> {
+    return this.foldersService.deleteFolder(id);
+  }
 }

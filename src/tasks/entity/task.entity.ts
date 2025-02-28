@@ -19,7 +19,7 @@ export class Task {
   @Column({ nullable: true })
   folderId: string;
 
-  @ManyToOne(() => Folder, folder => folder.tasks)
+  @ManyToOne(() => Folder, (folder) => folder.tasks)
   folder: Folder;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
