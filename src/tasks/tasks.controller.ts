@@ -21,7 +21,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @Get()
   getTasks(@Query() filterDto: GetTasksFilterDto): Promise<Task[]> {
     if (Object.keys(filterDto).length) {
@@ -43,7 +43,7 @@ export class TasksController {
 
   @Delete('/:id')
   deleteTaskById(@Param('id') id: string): Promise<void> {
-    return this.deleteTaskById(id);
+    return this.tasksService.deleteTaskById(id);
   }
 
   @Patch('/:id')

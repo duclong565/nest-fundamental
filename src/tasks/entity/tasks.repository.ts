@@ -36,10 +36,11 @@ export class TaskRepository {
 
   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     try {
-      const { title, description } = createTaskDto;
+      const { title, description, folderId } = createTaskDto;
       return await this.taskRepository.save({
         title,
         description,
+        folderId,
         status: TaskStatus.OPEN,
       });
     } catch (error) {

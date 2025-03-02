@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+} from 'typeorm';
 import { TaskStatus } from '../tasks-status.enum';
 import { Folder } from 'src/folders/entities/folder.entity';
 
@@ -16,10 +22,13 @@ export class Task {
   @Column()
   status: TaskStatus;
 
-  @Column({ nullable: true })
+  @Column()
   folderId: string;
 
-  @ManyToOne(() => Folder, (folder) => folder.tasks)
+  @ManyToOne(() => Folder, (folder) => folder.tasks, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'folderId' })
   folder: Folder;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

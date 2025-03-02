@@ -51,8 +51,8 @@ export class FolderRepository {
     updateFolderDto: UpdateFolderDto,
   ): Promise<Folder> {
     try {
-      const { title } = updateFolderDto;
-      return await this.folderRepository.save({ id, title });
+      const { title, taskOrderIds } = updateFolderDto;
+      return await this.folderRepository.save({ id, title, taskOrderIds });
     } catch (error) {
       throw new InternalServerErrorException(
         'Không thể update folder repo',

@@ -12,7 +12,10 @@ export class Folder {
   @Column({ type: 'jsonb', nullable: true })
   taskOrderIds: string[];
 
-  @OneToMany(() => Task, (task) => task.folderId)
+  @OneToMany(() => Task, (task) => task.folderId, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   tasks: Task[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

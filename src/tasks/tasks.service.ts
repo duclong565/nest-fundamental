@@ -1,13 +1,21 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskRepository } from './entity/tasks.repository';
 import { Task } from './entity/task.entity';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { FolderRepository } from 'src/folders/entities/folder.repository';
 
 @Injectable()
 export class TasksService {
-  constructor(private taskRepository: TaskRepository) {}
+  constructor(
+    private taskRepository: TaskRepository,
+    private folderRepository: FolderRepository,
+  ) {}
 
   async getTasks(): Promise<Task[]> {
     try {
@@ -29,7 +37,24 @@ export class TasksService {
 
   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     try {
-      return await this.taskRepository.createTask(createTaskDto);
+      const folder = await this.folderRepository.findOneFolder(
+        createTaskDto.folderId,
+      );
+
+      if (!folder) {
+        throw new NotFoundException(
+          `Không tìm thấy folder ${createTaskDto.folderId}`,
+        );
+      }
+
+      const task = await this.taskRepository.createTask(createTaskDto);
+
+      folder.taskOrderIds = [...(folder.taskOrderIds || []), task.id];
+      await this.folderRepository.updateFolder(folder.id, {
+        taskOrderIds: folder.taskOrderIds,
+      });
+
+      return task;
     } catch (err) {
       throw new InternalServerErrorException('Không thể tạo task o service');
     }
