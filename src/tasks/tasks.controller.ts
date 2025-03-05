@@ -53,4 +53,10 @@ export class TasksController {
   ): Promise<Task> {
     return this.tasksService.updateTask(id, updateTaskDto);
   }
+
+  @Get('/folder/:folderId')
+  getTasksByFolder(@Param('folderId') folderId: string): Promise<Task[]> {
+    return this.tasksService.getTasksByFolder(folderId);
+  }
 }
+

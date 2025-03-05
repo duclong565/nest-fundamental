@@ -85,4 +85,21 @@ export class TaskRepository {
       throw new InternalServerErrorException('Không thể lấy task repo');
     }
   }
+
+  async findTasksByIds(taskIds: string[]): Promise<Task[]> {
+    try {
+      if (!taskIds.length) return [];
+      
+      const tasks = await this.taskRepository
+        .createQueryBuilder('task')
+        .where('task.id IN (:...taskIds)', { taskIds })
+        .getMany();
+
+      // Sort tasks according to taskOrderIds order
+      return taskIds.map(id => tasks.find(task => task.id === id)).filter(Boolean);
+    } catch (error) {
+      throw new InternalServerErrorException('Không thể lấy tasks theo ids');
+    }
+  }
+
 }

@@ -102,4 +102,21 @@ export class TasksService {
       throw new InternalServerErrorException('Không thể lấy task o service');
     }
   }
+
+  async getTasksByFolder(folderId: string): Promise<Task[]> {
+    try {
+      const folder = await this.folderRepository.findOneFolder(folderId);
+      if (!folder) {
+        throw new NotFoundException(`Không tìm thấy folder ${folderId}`);
+      }
+
+      return await this.taskRepository.findTasksByIds(folder.taskOrderIds || []);
+    } catch (err) {
+      if (err instanceof NotFoundException) {
+        throw err;
+      }
+      throw new InternalServerErrorException('Không thể lấy tasks theo folder');
+    }
+  }
+
 }
