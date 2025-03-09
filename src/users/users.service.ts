@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserRepository } from './entity/user.repository';
 import { User } from './entity/user.entity';
 import { SignUpDto } from 'src/auth/dto/sign-up.dto';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -38,4 +39,11 @@ export class UsersService {
   async deleteUser(id: string): Promise<void> {
     await this.userRepo.deleteUser(id);
   } 
+
+  async updateFolderOrderIds(userId: string, folderOrderIds: string[]): Promise<User> {
+    const user = await this.userRepo.findOne(userId);
+    user.folderOrderIds = folderOrderIds;
+
+    return await this.userRepo.updateUser(userId, user);  
+  }
 }

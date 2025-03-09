@@ -1,4 +1,6 @@
 import {
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -8,19 +10,49 @@ import { CreateFolderDto } from './dto/create-folder.dto';
 import { UpdateFolderDto } from './dto/update-folder.dto';
 import { Folder } from './entities/folder.entity';
 import { FolderRepository } from './entities/folder.repository';
+import { UserRepository } from 'src/users/entity/user.repository';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class FoldersService {
   private logger = new Logger('FoldersService');
 
-  constructor(private folderRepository: FolderRepository) {}
+  constructor(
+    private folderRepository: FolderRepository,
+    @Inject(forwardRef(() => UserRepository))
+    private userRepo: UserRepository,
+    @Inject(forwardRef(() => UsersService))
+    private userService: UsersService,
+  ) {}
 
   async createFolder(createFolderDto: CreateFolderDto): Promise<Folder> {
     try {
-      return await this.folderRepository.createFolder(createFolderDto);
+      const user = await this.userRepo.findOne(createFolderDto.userId);
+      this.logger.debug(`Found user: ${JSON.stringify(user)}`);
+
+      if (!user) {
+        throw new NotFoundException(
+          `Không tìm thấy user ${createFolderDto.userId}`,
+        );
+      }
+
+      const folder = await this.folderRepository.createFolder(createFolderDto);
+      this.logger.debug(`Created folder: ${JSON.stringify(folder)}`);
+
+      const newFolderOrderIds = [folder.id, ...user.folderOrderIds || []];
+      await this.userService.updateFolderOrderIds(user.id, newFolderOrderIds);
+
+      return folder;
     } catch (error) {
+      this.logger.error(
+        `Failed to create folder: ${error.message}`,
+        error.stack,
+      );
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new InternalServerErrorException(
-        'Không thể tạo folder service',
+        `Không thể tạo folder service: ${error.message}`,
         error,
       );
     }
