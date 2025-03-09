@@ -14,8 +14,12 @@ export class FolderRepository {
 
   async createFolder(createFolderDto: CreateFolderDto): Promise<Folder> {
     try {
-      const { title } = createFolderDto;
-      return await this.folderRepository.save({ title, taskOrderIds: [] });
+      const { title, userId } = createFolderDto;
+      return await this.folderRepository.save({
+        title,
+        userId,
+        taskOrderIds: [],
+      });
     } catch (error) {
       throw new InternalServerErrorException(
         'Không thể tạo folder repo',

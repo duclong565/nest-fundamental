@@ -1,5 +1,6 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Folder } from 'src/folders/entities/folder.entity';
 
 @Entity()
 export class User {
@@ -14,6 +15,15 @@ export class User {
 
   @Column()
   email: string;
+
+  @Column({ type: 'jsonb', nullable: true })
+  folderOrderIds: string[];
+
+  @OneToMany(() => Folder, (folder) => folder.user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  folders: Folder[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

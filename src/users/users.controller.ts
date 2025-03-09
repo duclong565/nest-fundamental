@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -32,4 +33,10 @@ export class UsersController {
   getUserById(@Param('id') id: string): Promise<User> {
     return this.usersService.findOne(id);
   }
+
+  @Delete('/:id')
+  deleteUser(@Param('id') id: string): Promise<void> {
+    return this.usersService.deleteUser(id);
+  }
 }
+

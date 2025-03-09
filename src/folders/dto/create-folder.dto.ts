@@ -5,4 +5,7 @@ export class CreateFolderDto {
   @MinLength(1)
   @MaxLength(50)
   title: string;
+
+  @IsNotEmpty()
+  userId: string;
 }
