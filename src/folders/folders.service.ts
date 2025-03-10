@@ -39,7 +39,7 @@ export class FoldersService {
       const folder = await this.folderRepository.createFolder(createFolderDto);
       this.logger.debug(`Created folder: ${JSON.stringify(folder)}`);
 
-      const newFolderOrderIds = [folder.id, ...user.folderOrderIds || []];
+      const newFolderOrderIds = [folder.id, ...(user.folderOrderIds || [])];
       await this.userService.updateFolderOrderIds(user.id, newFolderOrderIds);
 
       return folder;
