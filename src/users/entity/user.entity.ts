@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Folder } from 'src/folders/entities/folder.entity';
+import { Collaboration } from 'src/collaborations/entity/collaboration.entity';
 
 @Entity()
 export class User {
@@ -19,7 +20,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column()Ư
+  @Column()
   email: string;
 
   @Column({ type: 'jsonb', nullable: true })
@@ -30,6 +31,10 @@ export class User {
     onDelete: 'CASCADE',
   })
   folders: Folder[];
+
+  //collaboration
+  @OneToMany(() => Collaboration, (collaboration) => collaboration.user)
+  collaborations: Collaboration[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
