@@ -137,13 +137,15 @@ export class CollaborationRepository {
     }
   }
 
-  async deleteCollaboration(id: string): Promise<void> {
+  async deleteCollaboration(id: string): Promise<boolean> {
     try {
       const result = await this.collaborationRepository.delete(id);
 
       if (result.affected === 0) {
         throw new NotFoundException(`Collaboration with ID ${id} not found`);
+        return false;
       }
+      return true;
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw error;
@@ -151,6 +153,7 @@ export class CollaborationRepository {
       throw new InternalServerErrorException(
         `Failed to delete collaboration: ${error.message}`,
       );
+      return false;
     }
   }
 }
