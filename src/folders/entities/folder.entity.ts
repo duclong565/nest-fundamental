@@ -1,4 +1,4 @@
-import { Collaboration } from 'src/collaborations/entity/collaboration.entity';
+import { Collaboration } from 'src/collaborations/entity/collaborations.entity';
 import { Task } from 'src/tasks/entity/task.entity';
 import { User } from 'src/users/entity/user.entity';
 import {

@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Folder } from 'src/folders/entities/folder.entity';
-import { Collaboration } from 'src/collaborations/entity/collaboration.entity';
+import { Collaboration } from 'src/collaborations/entity/collaborations.entity';
 
 @Entity()
 export class User {
