@@ -28,7 +28,7 @@ export class FoldersService {
   async createFolder(createFolderDto: CreateFolderDto): Promise<Folder> {
     try {
       const user = await this.userRepo.findOne(createFolderDto.userId);
-      this.logger.debug(`Found user: ${JSON.stringify(user)}`);
+      // this.logger.debug(`Found user: ${JSON.stringify(user)}`);
 
       if (!user) {
         throw new NotFoundException(
@@ -37,7 +37,7 @@ export class FoldersService {
       }
 
       const folder = await this.folderRepository.createFolder(createFolderDto);
-      this.logger.debug(`Created folder: ${JSON.stringify(folder)}`);
+      // this.logger.debug(`Created folder: ${JSON.stringify(folder)}`);
 
       const newFolderOrderIds = [folder.id, ...(user.folderOrderIds || [])];
       await this.userService.updateFolderOrderIds(user.id, newFolderOrderIds);

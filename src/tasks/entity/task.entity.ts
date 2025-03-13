@@ -25,6 +25,8 @@ export class Task {
   @Column()
   folderId: string;
 
+  /* Xác định mối quan hệ, không phải là 1 trường trong bảng
+  JoinColumn là để xác định khóa ngoại ở trường folderId */
   @ManyToOne(() => Folder, (folder) => folder.tasks, {
     onDelete: 'CASCADE',
   })

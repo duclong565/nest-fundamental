@@ -1,4 +1,10 @@
-import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Folder } from 'src/folders/entities/folder.entity';
 
@@ -13,7 +19,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column()Ư
   email: string;
 
   @Column({ type: 'jsonb', nullable: true })
