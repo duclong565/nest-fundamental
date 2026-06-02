@@ -20,7 +20,7 @@ export class TasksService {
   async getTasks(): Promise<Task[]> {
     try {
       return await this.taskRepository.getTasks();
-    } catch (err) {
+    } catch {
       throw new InternalServerErrorException('Không thể lấy task o service');
     }
   }
@@ -55,7 +55,7 @@ export class TasksService {
       });
 
       return task;
-    } catch (err) {
+    } catch {
       throw new InternalServerErrorException('Không thể tạo task o service');
     }
   }
@@ -69,7 +69,7 @@ export class TasksService {
       }
 
       await this.taskRepository.deleteTask(id);
-    } catch (err) {
+    } catch {
       throw new InternalServerErrorException('Không thể xóa task o service');
     }
   }
@@ -90,7 +90,7 @@ export class TasksService {
       if (status !== undefined) found.status = status;
 
       return await this.taskRepository.updateTask(found);
-    } catch (err) {
+    } catch {
       throw new InternalServerErrorException('Không thể update task o service');
     }
   }
@@ -98,7 +98,7 @@ export class TasksService {
   async getTasksWithFilters(filterDto: GetTasksFilterDto): Promise<Task[]> {
     try {
       return await this.taskRepository.findTaskWithFilter(filterDto);
-    } catch (err) {
+    } catch {
       throw new InternalServerErrorException('Không thể lấy task o service');
     }
   }
@@ -110,7 +110,9 @@ export class TasksService {
         throw new NotFoundException(`Không tìm thấy folder ${folderId}`);
       }
 
-      return await this.taskRepository.findTasksByIds(folder.taskOrderIds || []);
+      return await this.taskRepository.findTasksByIds(
+        folder.taskOrderIds || [],
+      );
     } catch (err) {
       if (err instanceof NotFoundException) {
         throw err;
@@ -118,5 +120,4 @@ export class TasksService {
       throw new InternalServerErrorException('Không thể lấy tasks theo folder');
     }
   }
-
 }

@@ -8,7 +8,7 @@ describe('CollaborationsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [CollaborationsController],
-      providers: [CollaborationsService],
+      providers: [{ provide: CollaborationsService, useValue: {} }],
     }).compile();
 
     controller = module.get<CollaborationsController>(CollaborationsController);

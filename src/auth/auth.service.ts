@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { User } from 'src/users/entity/user.entity';
 import { UsersService } from 'src/users/users.service';
-import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -13,10 +10,6 @@ export class AuthService {
     private userService: UsersService,
     private jwtService: JwtService,
   ) {}
-
-  // async signIn(signInDto: SignInDto): Promise<any> {
-  //   const user = await this.userService.findOne(signInDto.email);
-  // }
 
   async login(user: any) {
     const payload = { email: user.email, sub: user.userId };

@@ -1,10 +1,13 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
+import { CollaborationsService } from 'src/collaborations/collaborations.service';
+import { UpdateCollaborationDto } from 'src/collaborations/dto/update-collaboration.dto';
+import { Collaboration } from 'src/collaborations/entity/collaborations.entity';
 @Injectable()
 export class MailService implements OnModuleInit {
   private transporter: nodemailer.Transporter;
 
-  constructor() {
+  constructor(private readonly collaborationService: CollaborationsService) {
     this.transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
@@ -55,6 +58,22 @@ export class MailService implements OnModuleInit {
       console.log('Test email sent successfully');
     } catch (error) {
       console.error('Error sending test email:', error);
+    }
+  }
+
+  async updateCollaborationStatus(
+    id: string,
+    updateCollaborationDto: UpdateCollaborationDto,
+  ): Promise<Collaboration> {
+    try {
+      const result = await this.collaborationService.updateCollaboration(
+        id,
+        updateCollaborationDto,
+      );
+
+      return result;
+    } catch (error) {
+      console.error('Bugs at Mail Service', error);
     }
   }
 }

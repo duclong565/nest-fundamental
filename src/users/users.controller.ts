@@ -1,17 +1,13 @@
 import {
-  Body,
   Controller,
   Delete,
   Get,
   Param,
-  Post,
   Request,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entity/user.entity';
-import { SignUpDto } from '../auth/dto/sign-up.dto';
-import { JwtStrategy } from '../auth/strategy/jwt.strategy';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users')
@@ -39,4 +35,3 @@ export class UsersController {
     return this.usersService.deleteUser(id);
   }
 }
-

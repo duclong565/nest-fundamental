@@ -8,7 +8,7 @@ describe('FoldersController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [FoldersController],
-      providers: [FoldersService],
+      providers: [{ provide: FoldersService, useValue: {} }],
     }).compile();
 
     controller = module.get<FoldersController>(FoldersController);
